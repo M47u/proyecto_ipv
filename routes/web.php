@@ -102,22 +102,33 @@ Route::middleware(['auth'])->group(function () {
     ]);
 
     
-    // ============================================
-    // REPORTES (solo administrador)
-    // ============================================
-    Route::middleware(['role:administrador'])
-        ->prefix('reportes')
-        ->name('reportes.')
-        ->group(function () {
-            Route::get('/', [ReporteController::class, 'index'])
-                ->name('index');
-            Route::get('/vivienda/{vivienda}', [ReporteController::class, 'evolucionVivienda'])
-                ->name('vivienda');
-            Route::get('/periodo', [ReporteController::class, 'inspeccionesPorPeriodo'])
-                ->name('periodo');
-            Route::get('/estadisticas', [ReporteController::class, 'estadisticasGenerales'])
-                ->name('estadisticas');
-            Route::get('/mapa-export', [ReporteController::class, 'exportarMapa'])
-                ->name('mapa-export');
-        });
+// ============================================
+// REPORTES (solo administrador)
+// ============================================
+Route::middleware(['role:administrador'])
+    ->prefix('reportes')
+    ->name('reportes.')
+    ->group(function () {
+        // Índice principal
+        Route::get('/', [ReporteController::class, 'index'])
+            ->name('index');
+        
+        // Evolución de Vivienda
+        Route::get('/evolucion-vivienda', [ReporteController::class, 'evolucionVivienda'])
+            ->name('evolucion-vivienda-form');
+        Route::get('/vivienda/{vivienda}', [ReporteController::class, 'generarEvolucionVivienda'])
+            ->name('vivienda');
+        Route::get('/vivienda/{vivienda}/pdf', [ReporteController::class, 'exportarEvolucionPDF'])
+            ->name('evolucion-vivienda.pdf');
+        Route::get('/vivienda/{vivienda}/excel', [ReporteController::class, 'exportarEvolucionExcel'])
+            ->name('evolucion-vivienda.excel');
+        
+        // Otros reportes (placeholders)
+        Route::get('/periodo', [ReporteController::class, 'inspeccionesPorPeriodo'])
+            ->name('periodo');
+        Route::get('/estadisticas', [ReporteController::class, 'estadisticasGenerales'])
+            ->name('estadisticas');
+        Route::get('/mapa-export', [ReporteController::class, 'exportarMapa'])
+            ->name('mapa-export');
+    });
 });

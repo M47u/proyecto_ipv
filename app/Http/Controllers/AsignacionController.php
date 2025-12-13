@@ -85,6 +85,17 @@ class AsignacionController extends Controller
             'fecha_limite' => 'nullable|date|after_or_equal:fecha_asignacion',
             'prioridad' => 'required|in:baja,media,alta,urgente',
             'notas' => 'nullable|string',
+        ], [
+            'vivienda_id.required' => 'La vivienda es obligatoria.',
+            'vivienda_id.exists' => 'La vivienda seleccionada no existe.',
+            'inspector_id.required' => 'El inspector es obligatorio.',
+            'inspector_id.exists' => 'El inspector seleccionado no existe.',
+            'fecha_asignacion.required' => 'La fecha de asignación es obligatoria.',
+            'fecha_asignacion.date' => 'La fecha de asignación debe ser una fecha válida.',
+            'fecha_limite.date' => 'La fecha límite debe ser una fecha válida.',
+            'fecha_limite.after_or_equal' => 'La fecha límite debe ser igual o posterior a la fecha de asignación.',
+            'prioridad.required' => 'La prioridad es obligatoria.',
+            'prioridad.in' => 'La prioridad debe ser: baja, media, alta o urgente.',
         ]);
 
         DB::beginTransaction();
@@ -176,7 +187,22 @@ class AsignacionController extends Controller
             $rules['vivienda_id'] = 'required|exists:viviendas,id';
         }
 
-        $validated = $request->validate($rules);
+        $messages = [
+            'vivienda_id.required' => 'La vivienda es obligatoria.',
+            'vivienda_id.exists' => 'La vivienda seleccionada no existe.',
+            'inspector_id.required' => 'El inspector es obligatorio.',
+            'inspector_id.exists' => 'El inspector seleccionado no existe.',
+            'fecha_asignacion.required' => 'La fecha de asignación es obligatoria.',
+            'fecha_asignacion.date' => 'La fecha de asignación debe ser una fecha válida.',
+            'fecha_limite.date' => 'La fecha límite debe ser una fecha válida.',
+            'fecha_limite.after_or_equal' => 'La fecha límite debe ser igual o posterior a la fecha de asignación.',
+            'estado.required' => 'El estado es obligatorio.',
+            'estado.in' => 'El estado debe ser: pendiente, en_progreso, completada o cancelada.',
+            'prioridad.required' => 'La prioridad es obligatoria.',
+            'prioridad.in' => 'La prioridad debe ser: baja, media, alta o urgente.',
+        ];
+
+        $validated = $request->validate($rules, $messages);
 
         DB::beginTransaction();
 

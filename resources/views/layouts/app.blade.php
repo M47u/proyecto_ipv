@@ -507,6 +507,7 @@
 
                 <!-- Page Content -->
                 @yield('content')
+
             </main>
         </div>
     </div>
@@ -534,6 +535,7 @@
     </script>
 
     @stack('scripts')
+    @yield('scripts')
 </body>
 
 </html>
