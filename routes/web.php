@@ -129,6 +129,24 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/dashboard-ejecutivo/pdf', [ReporteController::class, 'exportarDashboardPDF'])
                 ->name('dashboard-ejecutivo.pdf');
 
+            // Productividad de Inspectores
+            Route::get('/productividad-inspectores', [ReporteController::class, 'productividadInspectores'])
+                ->name('productividad-inspectores');
+            Route::get('/productividad-inspectores/pdf', [ReporteController::class, 'exportarProductividadPDF'])
+                ->name('productividad-inspectores.pdf');
+
+            // Estado de Viviendas
+            Route::get('/estado-viviendas', [ReporteController::class, 'estadoViviendas'])
+                ->name('estado-viviendas');
+            Route::get('/estado-viviendas/pdf', [ReporteController::class, 'exportarEstadoViviendaPDF'])
+                ->name('estado-viviendas.pdf');
+
+            // Mapa de Inspecciones
+            Route::get('/mapa-inspecciones', [ReporteController::class, 'mapaInspecciones'])
+                ->name('mapa-inspecciones');
+            Route::get('/mapa-inspecciones/pdf', [ReporteController::class, 'exportarMapaInspeccionesPDF'])
+                ->name('mapa-inspecciones.pdf');
+
             // Otros reportes (placeholders)
             Route::get('/periodo', [ReporteController::class, 'inspeccionesPorPeriodo'])
                 ->name('periodo');
